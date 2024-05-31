@@ -14,7 +14,7 @@
       <el-form-item label="Login" prop="login">
         <el-input
           v-model="form_data.login"
-          placeholder="Please input "
+          placeholder="Please input login"
           clearable
           validate-event
         />
@@ -48,8 +48,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { FormInstance, ElMessage } from "element-plus";
-import { rules } from "@/validation_rules";
+import { ElMessage, FormInstance } from "element-plus";
 
 export default defineComponent({
   data() {
@@ -57,8 +56,45 @@ export default defineComponent({
       form_data: { login: "", password: "", repeated_password: "" },
       is_registration: false,
       formSize: "default",
-      is_form_valid: false,
-      rules: rules,
+      rules: {
+        login: [
+          {
+            required: true,
+            message: "Please input login",
+            trigger: "blur",
+          },
+          {
+            min: 3,
+            max: 10,
+            message: "Length should be 3 to 10",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          {
+            required: true,
+            message: "Please input password",
+            trigger: "blur",
+          },
+          {
+            min: 5,
+            message: "Length should be above 5",
+            trigger: "blur",
+          },
+        ],
+        repeated_password: [
+          {
+            required: true,
+            message: "Please input password again",
+            trigger: "blur",
+          },
+          {
+            min: 5,
+            message: "Length should be above 5",
+            trigger: "blur",
+          },
+        ],
+      },
     };
   },
   methods: {
@@ -74,7 +110,6 @@ export default defineComponent({
       });
     },
   },
-  computed: {},
   watch: {
     is_registration() {
       this.form_data.repeated_password = "";
@@ -95,7 +130,6 @@ export default defineComponent({
   border: 1px solid var(--el-border-color);
   box-shadow: var(--el-box-shadow-dark);
   border-radius: 20px;
-
   width: 300px;
 }
 </style>
